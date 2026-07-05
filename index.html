@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lumine · Semijoias · Criamos presença</title>
+<meta name="description" content="Lumine, semijoias de luxo minimalista. Não vendemos joias. Criamos presença. Para quem sabe o que vale." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SVG defs: estrela de 4 pontas da marca -->
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="star" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"/></symbol>
+  <symbol id="medal" viewBox="0 0 100 100"><path d="M50 6 L61 38 L95 38 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 L39 38 Z"/></symbol>
+</defs></svg>
+
+<div class="announce">Envios para todo o Portugal · Semijoias com garantia · Novidades toda a semana</div>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><svg class="star"><use href="#star"/></svg>Lumine</a>
+    <ul class="nav-links">
+      <li><a href="colares.html">Colares</a></li>
+      <li><a href="aneis.html">Anéis</a></li>
+      <li><a href="brincos.html">Brincos</a></li>
+      <li><a href="pulseiras.html">Pulseiras</a></li>
+      <li><a href="index.html#sobre">A Marca</a></li>
+    </ul>
+    <div class="nav-icons">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M6 2 L4 6 V20 a1 1 0 0 0 1 1 H19 a1 1 0 0 0 1 -1 V6 L18 2 Z"/><line x1="4" y1="6" x2="20" y2="6"/><path d="M9 10 a3 3 0 0 0 6 0"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="star-bg">
+    <svg class="s1"><use href="#star"/></svg>
+    <svg class="s2"><use href="#star"/></svg>
+    <svg class="s3"><use href="#star"/></svg>
+    <svg class="s4"><use href="#star"/></svg>
+    <svg class="s5"><use href="#star"/></svg>
+  </div>
+  <div class="hero-content">
+    <span class="hero-star"><img src="img/estrela.png" alt="Lumine" /></span>
+    <h1>Não vendemos joias.<br><em>Criamos presença.</em></h1>
+    <p>Peças atemporais para quem sabe o que vale. Minimalismo com impacto real. Está no detalhe.</p>
+  </div>
+</section>
+
+<!-- ===== VALUES ===== -->
+<section class="values">
+  <div class="wrap">
+    <div class="values-grid">
+      <div class="value">
+        <svg viewBox="0 0 24 24"><path d="M6 3 H18 L22 9 L12 21 L2 9 Z"/><path d="M2 9 H22"/><path d="M9 9 L12 21 L15 9"/><path d="M6 3 L9 9 M18 3 L15 9"/></svg>
+        <h4>Garantia real</h4><span>Semijoias que duram</span>
+      </div>
+      <div class="value">
+        <svg viewBox="0 0 24 24"><path d="M2 6 H14 V16 H2 Z"/><path d="M14 9 H18 L21 12 V16 H14 Z"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/></svg>
+        <h4>Envio 48H</h4><span>Para todo o Portugal</span>
+      </div>
+      <div class="value">
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="1.5"/><path d="M8 10 V7 a4 4 0 0 1 8 0 V10"/><circle cx="12" cy="15" r="1.1"/></svg>
+        <h4>Compra segura</h4><span>Pagamento protegido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COLEÇÃO ===== -->
+<section class="section" id="colecao">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Em destaque</span>
+      <h2>A coleção</h2>
+      <div class="rule"></div>
+    </div>
+  </div>
+  <div class="carousel">
+    <div class="carousel-track" id="product-track"><!-- cards injetados via JS --></div>
+  </div>
+  <div class="wrap">
+    <div class="center-cta"><a href="colares.html" class="btn">Ver toda a coleção</a></div>
+  </div>
+</section>
+
+<!-- ===== EDITORIAL ===== -->
+<section class="editorial">
+  <div class="wrap">
+    <span class="eyebrow">Para quem sabe o que vale</span>
+    <h2>O luxo não grita.<br><span>Sussurra no detalhe.</span></h2>
+    <p>Cada peça Lumine é escolhida para durar, e para dizer algo sem precisar de dizer nada.</p>
+  </div>
+</section>
+
+<!-- ===== STORY ===== -->
+<section class="section" id="sobre">
+  <div class="wrap">
+    <span class="eyebrow">A marca</span>
+    <h2>Presença que se sente antes de se ver.</h2>
+    <p>A Lumine nasce de uma ideia simples: uma joia não é um acessório, é uma assinatura. Menos peças, mais intenção.</p>
+    <p>Trabalhamos o minimalismo com impacto real, com semijoias em tons dourados e prateados, pensadas para o dia a dia e para os momentos que ficam.</p>
+    <a href="colares.html" class="btn">Descobrir as peças</a>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER (removida temporariamente — descomentar para reativar) =====
+<section class="news">
+  <div class="wrap">
+    <span class="eyebrow">Junte-se à Lumine</span>
+    <h2>O detalhe começa aqui.</h2>
+    <p>Receba lançamentos e ofertas exclusivas antes de todos. Sem ruído, só o essencial.</p>
+    <form onsubmit="return false;">
+      <input type="email" placeholder="O seu e-mail" required />
+      <button class="btn btn-solid" type="submit">Subscrever</button>
+    </form>
+  </div>
+</section>
+-->
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand"><svg class="star"><use href="#star"/></svg>Lumine</a>
+        <p>Semijoias de luxo minimalista. Não vendemos joias. Criamos presença.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Loja</h5>
+        <a href="colares.html">Colares</a><a href="aneis.html">Anéis</a><a href="brincos.html">Brincos</a><a href="pulseiras.html">Pulseiras</a>
+      </div>
+      <div class="foot-col">
+        <h5>Ajuda</h5>
+        <a href="#">Envios e devoluções</a><a href="#">Cuidados com a peça</a><a href="#">Contactos</a><a href="#">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h5>Seguir</h5>
+        <a href="https://instagram.com/luminestore.pt" target="_blank">Instagram @luminestore.pt</a>
+        <a href="#">TikTok</a><a href="#">Newsletter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados</span>
+      <span class="pay">Visa · Mastercard · MB Way · PayPal</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Catálogo real (fotos do cliente). Nomes provisórios — ajustar quando houver catálogo oficial.
+  const produtos = [
+    {nome:'Anel de Pérola',   mat:'Banho a ouro · pérola',   img:'img/p-anel-perola.png',   pos:'center'},
+    {nome:'Brincos de Pérola',mat:'Banho a ouro · pérola',   img:'img/p-brincos-perola.png',pos:'center'},
+    {nome:'Colar Coração',    mat:'Banho a ouro · zircónias',img:'img/p-colar-coracao.png', pos:'center 18%'},
+    {nome:'Colar com Argola', mat:'Prata',                   img:'img/p-colar-argola.png',  pos:'center'},
+    {nome:'Colar Esfera',     mat:'Banho a ouro',            img:'img/p-colar-esfera.jpg',  pos:'center 22%'},
+    {nome:'Pulseira Snake',   mat:'Banho a ouro',            img:'img/p-pulseira-snake.png',pos:'center'},
+    {nome:'Anel Barra',       mat:'Banho a ouro',            img:'img/p-anel-barra.png',    pos:'center'},
+  ];
+  const card = p=>`
+    <article class="card">
+      <div class="product-media" style="background-image:url('${p.img}');background-position:${p.pos};"></div>
+      <div class="card-body">
+        <h3>${p.nome}</h3>
+        <div class="mat">${p.mat}</div>
+        <span class="add">Ver peça</span>
+      </div>
+    </article>`;
+  const track = document.getElementById('product-track');
+  // duplica a lista pra o loop do carrossel ser contínuo (translateX -50%)
+  track.innerHTML = produtos.map(card).join('') + produtos.map(card).join('');
+</script>
+</body>
+</html>
