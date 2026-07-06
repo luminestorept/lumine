@@ -1,8 +1,9 @@
 /* Modal "quick view" partilhado por todas as páginas de categoria.
-   Cada página define window.PECAS = { id: {nome, mat, price, desc, imgs:[...]} }
-   e adiciona data-id nos cards. */
+   Lê os dados do catálogo partilhado (catalogo.js → LumineCatalogo).
+   Cada card tem data-id; o modal mostra galeria de fotos + vídeo (se houver). */
 (function(){
-  const PECAS = window.PECAS || {};
+  const CAT = window.LumineCatalogo;
+  const getPeca = id => CAT ? CAT.get(id) : (window.PECAS||{})[id];
   const star = '<svg class="st" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"/></svg>';
 
   const wrap = document.createElement('div');
@@ -42,21 +43,43 @@
   const elPrice = document.getElementById('modal-price');
   const elDesc  = document.getElementById('modal-desc');
 
-  const setMain = src => { elMain.style.backgroundImage = `url('${src}')`; };
+  const fmtPrice = p => (typeof p.price === 'number') ? (p.price.toLocaleString('pt-PT') + ' €') : (p.price || '');
+
+  function showImage(src){
+    elMain.innerHTML = '';
+    elMain.style.backgroundImage = `url('${src}')`;
+  }
+  function showVideo(src){
+    elMain.style.backgroundImage = 'none';
+    elMain.innerHTML = `<video src="${src}" controls autoplay muted playsinline
+        style="width:100%;height:100%;object-fit:cover;background:#000;"></video>`;
+  }
 
   function openModal(id){
-    const p = PECAS[id]; if(!p) return;
+    const p = getPeca(id); if(!p) return;
+    const imgs = p.imgs || [];
     elNome.textContent = p.nome;
-    elMat.textContent  = p.mat;
-    elPrice.textContent= p.price;
-    elDesc.textContent = p.desc;
-    setMain(p.imgs[0]);
-    // miniaturas só quando há mais de uma foto
-    if(p.imgs.length > 1){
+    elMat.textContent  = p.mat || '';
+    elPrice.textContent= fmtPrice(p);
+    elDesc.textContent = p.desc || '';
+
+    // primeira média: primeira foto (ou o vídeo, se não houver fotos)
+    if(imgs.length) showImage(imgs[0]);
+    else if(p.video) showVideo(p.video);
+
+    // miniaturas: fotos + (vídeo, se existir)
+    const thumbs = [];
+    imgs.forEach((src,i)=> thumbs.push(
+      `<button data-type="img" data-src="${src}" class="${i===0?'active':''}" style="background-image:url('${src}')"></button>`
+    ));
+    if(p.video) thumbs.push(
+      `<button data-type="video" data-src="${p.video}" class="${imgs.length?'':'active'}" style="background:#0c2a1e;display:flex;align-items:center;justify-content:center">
+         <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#E4CE9A"><path d="M8 5v14l11-7z"/></svg>
+       </button>`
+    );
+    if(thumbs.length > 1){
       elThumbs.style.display = 'flex';
-      elThumbs.innerHTML = p.imgs.map((src,i)=>
-        `<button data-src="${src}" class="${i===0?'active':''}" style="background-image:url('${src}')"></button>`
-      ).join('');
+      elThumbs.innerHTML = thumbs.join('');
     } else {
       elThumbs.style.display = 'none';
       elThumbs.innerHTML = '';
@@ -69,6 +92,7 @@
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
+    elMain.innerHTML = ''; // para o vídeo, se estiver a tocar
   }
 
   document.querySelectorAll('.card[data-id]').forEach(c=>{
@@ -77,7 +101,8 @@
   });
   elThumbs.addEventListener('click', e=>{
     const b = e.target.closest('button'); if(!b) return;
-    setMain(b.dataset.src);
+    if(b.dataset.type === 'video') showVideo(b.dataset.src);
+    else showImage(b.dataset.src);
     elThumbs.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
   });

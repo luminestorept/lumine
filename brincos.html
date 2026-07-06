@@ -47,22 +47,10 @@
 <section class="section" style="padding-top:52px;">
   <div class="wrap">
     <div class="cat-bar">
-      <span class="count">2 peças</span>
+      <span class="count" id="catCount"></span>
       <span class="sort">Ordenar por: Novidades</span>
     </div>
-    <div class="cat-grid">
-
-      <article class="card" data-id="brincos-perola">
-        <div class="product-media" style="background-image:url('img/p-brincos-perola.png');background-position:center;"></div>
-        <div class="card-body"><h3>Brincos de Pérola</h3><div class="mat">Banho a ouro · pérola</div><span class="add">Ver peça</span></div>
-      </article>
-
-      <article class="card" data-id="brincos-gota">
-        <div class="product-media" style="background-image:url('img/p-brincos-gota.jpg');background-position:center;"></div>
-        <div class="card-body"><h3>Brincos Gota</h3><div class="mat">Cristais</div><span class="add">Ver peça</span></div>
-      </article>
-
-    </div>
+    <div class="cat-grid" id="catGrid"></div>
   </div>
 </section>
 
@@ -104,21 +92,26 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados</span>
+      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados · <a href="admin.html" style="opacity:.5">Área de sócios</a></span>
       <span class="pay">Visa · Mastercard · MB Way · PayPal</span>
     </div>
   </div>
 </footer>
 
+<script src="catalogo.js"></script>
 <script>
-  window.PECAS = {
-    'brincos-perola':{ nome:'Brincos de Pérola', mat:'Banho a ouro · pérola', price:'19€',
-      desc:'Brincos de pérola de água doce com pino em banho a ouro. O clássico que combina com tudo, do dia ao jantar.',
-      imgs:['img/p-brincos-perola.png','img/p-brincos-perola-2.png','img/p-brincos-perola-3.png'] },
-    'brincos-gota':{ nome:'Brincos Gota', mat:'Cristais', price:'23€',
-      desc:'Brincos pendentes com cristais em gota e tom lilás. Um toque de cor para os dias que pedem brilho.',
-      imgs:['img/p-brincos-gota.jpg'] }
-  };
+  (function(){
+    var items = LumineCatalogo.byCat('Brincos');
+    var c = document.getElementById('catCount');
+    if(c) c.textContent = items.length + (items.length===1 ? ' peça' : ' peças');
+    document.getElementById('catGrid').innerHTML = items.map(function(p){
+      var img = (p.imgs && p.imgs[0]) || 'img/logo-lumine.png';
+      return '<article class="card" data-id="'+p.id+'">'
+        + '<div class="product-media" style="background-image:url(\''+img+'\');background-position:'+(p.pos||'center')+';"></div>'
+        + '<div class="card-body"><h3>'+p.nome+'</h3><div class="mat">'+(p.mat||'')+'</div><span class="add">Ver peça</span></div>'
+        + '</article>';
+    }).join('');
+  })();
 </script>
 <script src="product-modal.js"></script>
 </body>

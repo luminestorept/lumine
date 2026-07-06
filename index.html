@@ -147,35 +147,32 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados</span>
+      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados · <a href="admin.html" style="opacity:.5">Área de sócios</a></span>
       <span class="pay">Visa · Mastercard · MB Way · PayPal</span>
     </div>
   </div>
 </footer>
 
+<script src="catalogo.js"></script>
 <script>
-  // Catálogo real (fotos do cliente). Nomes provisórios — ajustar quando houver catálogo oficial.
-  const produtos = [
-    {nome:'Anel de Pérola',   mat:'Banho a ouro · pérola',   img:'img/p-anel-perola.png',   pos:'center'},
-    {nome:'Brincos de Pérola',mat:'Banho a ouro · pérola',   img:'img/p-brincos-perola.png',pos:'center'},
-    {nome:'Colar Coração',    mat:'Banho a ouro · zircónias',img:'img/p-colar-coracao.png', pos:'center 18%'},
-    {nome:'Colar com Argola', mat:'Prata',                   img:'img/p-colar-argola.png',  pos:'center'},
-    {nome:'Colar Esfera',     mat:'Banho a ouro',            img:'img/p-colar-esfera.jpg',  pos:'center 22%'},
-    {nome:'Pulseira Snake',   mat:'Banho a ouro',            img:'img/p-pulseira-snake.png',pos:'center'},
-    {nome:'Anel Barra',       mat:'Banho a ouro',            img:'img/p-anel-barra.png',    pos:'center'},
-  ];
-  const card = p=>`
-    <article class="card">
-      <div class="product-media" style="background-image:url('${p.img}');background-position:${p.pos};"></div>
+  // Peças em destaque, lidas do catálogo partilhado (o painel altera → aparece aqui).
+  const produtos = LumineCatalogo.all();
+  const card = p=>{
+    const img = (p.imgs && p.imgs[0]) || 'img/logo-lumine.png';
+    return `
+    <article class="card" data-id="${p.id}">
+      <div class="product-media" style="background-image:url('${img}');background-position:${p.pos||'center'};"></div>
       <div class="card-body">
         <h3>${p.nome}</h3>
-        <div class="mat">${p.mat}</div>
+        <div class="mat">${p.mat||''}</div>
         <span class="add">Ver peça</span>
       </div>
     </article>`;
+  };
   const track = document.getElementById('product-track');
   // duplica a lista pra o loop do carrossel ser contínuo (translateX -50%)
   track.innerHTML = produtos.map(card).join('') + produtos.map(card).join('');
 </script>
+<script src="product-modal.js"></script>
 </body>
 </html>

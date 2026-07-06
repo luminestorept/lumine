@@ -49,48 +49,10 @@
 <section class="section" style="padding-top:52px;">
   <div class="wrap">
     <div class="cat-bar">
-      <span class="count">4 peças</span>
+      <span class="count" id="catCount"></span>
       <span class="sort">Ordenar por: Novidades</span>
     </div>
-    <div class="cat-grid">
-
-      <article class="card" data-id="colar-coracao">
-        <div class="product-media" style="background-image:url('img/p-colar-coracao.png');background-position:center 18%;"></div>
-        <div class="card-body">
-          <h3>Colar Coração</h3>
-          <div class="mat">Banho a ouro · zircónias</div>
-          <span class="add">Ver peça</span>
-        </div>
-      </article>
-
-      <article class="card" data-id="colar-argola">
-        <div class="product-media" style="background-image:url('img/p-colar-argola.png');background-position:center;"></div>
-        <div class="card-body">
-          <h3>Colar com Argola</h3>
-          <div class="mat">Prata</div>
-          <span class="add">Ver peça</span>
-        </div>
-      </article>
-
-      <article class="card" data-id="colar-esfera">
-        <div class="product-media" style="background-image:url('img/p-colar-esfera-ouro.jpg');background-position:center;"></div>
-        <div class="card-body">
-          <h3>Colar Esfera</h3>
-          <div class="mat">Banho a ouro</div>
-          <span class="add">Ver peça</span>
-        </div>
-      </article>
-
-      <article class="card" data-id="conjunto">
-        <div class="product-media" style="background-image:url('img/p-conjunto-colar-anel.jpg');background-position:center;"></div>
-        <div class="card-body">
-          <h3>Conjunto Colar + Anel</h3>
-          <div class="mat">Banho a ouro</div>
-          <span class="add">Ver peça</span>
-        </div>
-      </article>
-
-    </div>
+    <div class="cat-grid" id="catGrid"></div>
   </div>
 </section>
 
@@ -137,36 +99,26 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados</span>
+      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados · <a href="admin.html" style="opacity:.5">Área de sócios</a></span>
       <span class="pay">Visa · Mastercard · MB Way · PayPal</span>
     </div>
   </div>
 </footer>
 
+<script src="catalogo.js"></script>
 <script>
-  // Dados das peças (preços provisórios — ajustar quando houver catálogo oficial)
-  window.PECAS = {
-    'colar-coracao':{
-      nome:'Colar Coração', mat:'Banho a ouro · zircónias', price:'34€',
-      desc:'Colar gravata em banho a ouro, com argola cravejada de zircónias e pendentes em coração. Ajustável, para um caimento em "Y" que valoriza o colo.',
-      imgs:['img/p-colar-coracao.png','img/p-colar-coracao-2.png']
-    },
-    'colar-argola':{
-      nome:'Colar com Argola', mat:'Prata', price:'29€',
-      desc:'Colar em prata com fecho de argola e barra em T. Um clássico com toque contemporâneo, para usar sozinho ou em camadas.',
-      imgs:['img/p-colar-argola.png','img/banner-colares.png']
-    },
-    'colar-esfera':{
-      nome:'Colar Esfera', mat:'Banho a ouro', price:'27€',
-      desc:'Corrente fina em banho a ouro com pendente esfera polida. Minimalismo puro — o detalhe que completa qualquer look.',
-      imgs:['img/p-colar-esfera-ouro.jpg','img/p-colar-esfera.jpg']
-    },
-    'conjunto':{
-      nome:'Conjunto Colar + Anel', mat:'Banho a ouro', price:'42€',
-      desc:'Conjunto em banho a ouro: colar de pendente esfera e anel ajustável a condizer. Presença coordenada, do pescoço à mão.',
-      imgs:['img/p-conjunto-colar-anel.jpg','img/p-anel-barra.png']
-    }
-  };
+  (function(){
+    var items = LumineCatalogo.byCat('Colares');
+    var c = document.getElementById('catCount');
+    if(c) c.textContent = items.length + (items.length===1 ? ' peça' : ' peças');
+    document.getElementById('catGrid').innerHTML = items.map(function(p){
+      var img = (p.imgs && p.imgs[0]) || 'img/logo-lumine.png';
+      return '<article class="card" data-id="'+p.id+'">'
+        + '<div class="product-media" style="background-image:url(\''+img+'\');background-position:'+(p.pos||'center')+';"></div>'
+        + '<div class="card-body"><h3>'+p.nome+'</h3><div class="mat">'+(p.mat||'')+'</div><span class="add">Ver peça</span></div>'
+        + '</article>';
+    }).join('');
+  })();
 </script>
 <script src="product-modal.js"></script>
 </body>

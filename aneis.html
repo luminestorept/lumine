@@ -47,27 +47,10 @@
 <section class="section" style="padding-top:52px;">
   <div class="wrap">
     <div class="cat-bar">
-      <span class="count">3 peças</span>
+      <span class="count" id="catCount"></span>
       <span class="sort">Ordenar por: Novidades</span>
     </div>
-    <div class="cat-grid">
-
-      <article class="card" data-id="anel-perola">
-        <div class="product-media" style="background-image:url('img/p-anel-perola.png');background-position:center;"></div>
-        <div class="card-body"><h3>Anel de Pérola</h3><div class="mat">Banho a ouro · pérola</div><span class="add">Ver peça</span></div>
-      </article>
-
-      <article class="card" data-id="anel-barra">
-        <div class="product-media" style="background-image:url('img/p-anel-barra.png');background-position:center;"></div>
-        <div class="card-body"><h3>Anel Barra</h3><div class="mat">Banho a ouro</div><span class="add">Ver peça</span></div>
-      </article>
-
-      <article class="card" data-id="anel-mop">
-        <div class="product-media" style="background-image:url('img/p-anel-mop.jpg');background-position:center;"></div>
-        <div class="card-body"><h3>Anel Madrepérola</h3><div class="mat">Banho a ouro · madrepérola</div><span class="add">Ver peça</span></div>
-      </article>
-
-    </div>
+    <div class="cat-grid" id="catGrid"></div>
   </div>
 </section>
 
@@ -109,24 +92,26 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados</span>
+      <span>© 2026 Lumine · luminestore.pt · Todos os direitos reservados · <a href="admin.html" style="opacity:.5">Área de sócios</a></span>
       <span class="pay">Visa · Mastercard · MB Way · PayPal</span>
     </div>
   </div>
 </footer>
 
+<script src="catalogo.js"></script>
 <script>
-  window.PECAS = {
-    'anel-perola':{ nome:'Anel de Pérola', mat:'Banho a ouro · pérola', price:'24€',
-      desc:'Anel aberto e ajustável em banho a ouro, com pérola de água doce numa ponta e terminação polida na outra. Discreto e atemporal.',
-      imgs:['img/p-anel-perola.png','img/p-anel-perola-2.jpg'] },
-    'anel-barra':{ nome:'Anel Barra', mat:'Banho a ouro', price:'22€',
-      desc:'Anel ajustável em banho a ouro com barra e esfera. Linhas geométricas, presença contemporânea.',
-      imgs:['img/p-anel-barra.png'] },
-    'anel-mop':{ nome:'Anel Madrepérola', mat:'Banho a ouro · madrepérola', price:'26€',
-      desc:'Anel em banho a ouro com placa de madrepérola de reflexos rosados. Um clássico com brilho natural.',
-      imgs:['img/p-anel-mop.jpg'] }
-  };
+  (function(){
+    var items = LumineCatalogo.byCat('Anéis');
+    var c = document.getElementById('catCount');
+    if(c) c.textContent = items.length + (items.length===1 ? ' peça' : ' peças');
+    document.getElementById('catGrid').innerHTML = items.map(function(p){
+      var img = (p.imgs && p.imgs[0]) || 'img/logo-lumine.png';
+      return '<article class="card" data-id="'+p.id+'">'
+        + '<div class="product-media" style="background-image:url(\''+img+'\');background-position:'+(p.pos||'center')+';"></div>'
+        + '<div class="card-body"><h3>'+p.nome+'</h3><div class="mat">'+(p.mat||'')+'</div><span class="add">Ver peça</span></div>'
+        + '</article>';
+    }).join('');
+  })();
 </script>
 <script src="product-modal.js"></script>
 </body>
