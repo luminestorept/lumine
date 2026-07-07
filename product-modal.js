@@ -2,6 +2,17 @@
    Lê os dados do catálogo partilhado (catalogo.js → LumineCatalogo).
    Cada card tem data-id; o modal mostra galeria de fotos + vídeo (se houver). */
 (function(){
+  /* --- menu mobile (hambúrguer) --- */
+  const mt = document.querySelector('.menu-toggle');
+  const nl = document.querySelector('.nav-links');
+  if(mt && nl){
+    mt.addEventListener('click', ()=>{
+      const open = nl.classList.toggle('open');
+      mt.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nl.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>nl.classList.remove('open')));
+  }
+
   const CAT = window.LumineCatalogo;
   const getPeca = id => CAT ? CAT.get(id) : (window.PECAS||{})[id];
   const star = '<svg class="st" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"/></svg>';
