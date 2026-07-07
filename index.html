@@ -32,7 +32,10 @@
     </ul>
     <div class="nav-icons">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
-      <svg viewBox="0 0 24 24"><path d="M6 2 L4 6 V20 a1 1 0 0 0 1 1 H19 a1 1 0 0 0 1 -1 V6 L18 2 Z"/><line x1="4" y1="6" x2="20" y2="6"/><path d="M9 10 a3 3 0 0 0 6 0"/></svg>
+      <a href="carrinho.html" class="cart-link" aria-label="Cesto">
+        <svg viewBox="0 0 24 24"><path d="M6 2 L4 6 V20 a1 1 0 0 0 1 1 H19 a1 1 0 0 0 1 -1 V6 L18 2 Z"/><line x1="4" y1="6" x2="20" y2="6"/><path d="M9 10 a3 3 0 0 0 6 0"/></svg>
+        <span class="cart-count">0</span>
+      </a>
       <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
   </div>
@@ -155,6 +158,7 @@
 </footer>
 
 <script src="catalogo.js"></script>
+<script src="carrinho.js"></script>
 <script>
   // Peças em destaque, lidas do catálogo partilhado (o painel altera → aparece aqui).
   const produtos = LumineCatalogo.all();

@@ -2,18 +2,8 @@
    Lê os dados do catálogo partilhado (catalogo.js → LumineCatalogo).
    Cada card tem data-id; o modal mostra galeria de fotos + vídeo (se houver). */
 (function(){
-  /* --- menu mobile (hambúrguer) --- */
-  const mt = document.querySelector('.menu-toggle');
-  const nl = document.querySelector('.nav-links');
-  if(mt && nl){
-    mt.addEventListener('click', ()=>{
-      const open = nl.classList.toggle('open');
-      mt.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    nl.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>nl.classList.remove('open')));
-  }
-
   const CAT = window.LumineCatalogo;
+  let currentId = null;
   const getPeca = id => CAT ? CAT.get(id) : (window.PECAS||{})[id];
   const star = '<svg class="st" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"/></svg>';
 
@@ -68,6 +58,7 @@
 
   function openModal(id){
     const p = getPeca(id); if(!p) return;
+    currentId = id;
     const imgs = p.imgs || [];
     elNome.textContent = p.nome;
     elMat.textContent  = p.mat || '';
@@ -128,6 +119,14 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
   }
-  document.getElementById('add-cart').addEventListener('click', ()=>toast('Adicionado ao cesto ✦'));
-  document.getElementById('buy-now').addEventListener('click', ()=>toast('A ir para o checkout…'));
+  document.getElementById('add-cart').addEventListener('click', ()=>{
+    if(!currentId || !window.LumineCart) return;
+    window.LumineCart.add(currentId, 1);
+    toast('Adicionado ao cesto ✦');
+  });
+  document.getElementById('buy-now').addEventListener('click', ()=>{
+    if(!currentId || !window.LumineCart) return;
+    window.LumineCart.add(currentId, 1);
+    window.location.href = 'carrinho.html';
+  });
 })();
