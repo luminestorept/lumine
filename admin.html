@@ -628,6 +628,19 @@ function reopen(id){ const o=pedidos.find(x=>x.id===id); if(!o) return; o.estado
 
 document.getElementById('productModal').addEventListener('click', e=>{ if(e.target.id==='productModal') closeProduct(); });
 
+/* ============ AUTO-ATUALIZAÇÃO ============ */
+// quando um pedido/produto muda noutra aba (ex.: cliente finaliza uma compra),
+// o navegador dispara 'storage' aqui — recarregamos e mostramos na hora.
+function appVisivel(){ return document.getElementById('app').style.display==='grid'; }
+window.addEventListener('storage', function(e){
+  if(!appVisivel()) return;
+  const chaves = [KEY_O, (window.LumineCatalogo && LumineCatalogo.KEY)];
+  if(e.key===null || chaves.indexOf(e.key)!==-1){ load(); renderAll(); toast('Novidades — painel atualizado'); }
+});
+// ao voltar à aba do painel, recarrega sempre (garante dados frescos)
+window.addEventListener('focus', function(){ if(appVisivel()){ load(); renderAll(); } });
+document.addEventListener('visibilitychange', function(){ if(!document.hidden && appVisivel()){ load(); renderAll(); } });
+
 /* ============ ARRANQUE ============ */
 if(sessionStorage.getItem('lumine_auth')==='1'){ showApp(); }
 else{ document.getElementById('pass').focus(); }
