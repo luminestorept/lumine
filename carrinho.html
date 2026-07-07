@@ -171,7 +171,13 @@
 
   function finalizar(dados){
     const { items, total } = calc();
-    // 1) cria a encomenda no mesmo sítio que o painel dos sócios lê
+
+    // Referência Multibanco (demonstração)
+    const entidade = '21832';
+    const refFmt = String(Math.floor(100000000 + Math.random()*900000000)).replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+    // 1) cria a encomenda como "Aguardando confirmação" (pagamento por confirmar)
+    //    no mesmo sítio que o painel dos sócios lê
     let peds; try{ peds = JSON.parse(localStorage.getItem(KEY_O)); }catch(e){ peds = null; }
     if(!Array.isArray(peds)) peds = [];
     let max = 1042; peds.forEach(p=>{ const m=/LUM-(\d+)/.exec(p.id||''); if(m) max=Math.max(max,+m[1]); });
@@ -179,9 +185,10 @@
     const now = new Date();
     const hh = String(now.getHours()).padStart(2,'0'), mm = String(now.getMinutes()).padStart(2,'0');
     peds.unshift({
-      id:id, cliente:dados.nome, contacto:dados.loc+' · Multibanco', data:'Hoje, '+hh+':'+mm, estado:'novo',
+      id:id, cliente:dados.nome, contacto:dados.loc+' · Multibanco', data:'Hoje, '+hh+':'+mm, estado:'aguardando',
       itens: items.map(i=>({nome:i.nome, qtd:i.qty, price:i.price})),
-      email:dados.email, telefone:dados.tel, morada:dados.morada+', '+dados.cp+' '+dados.loc, total:total
+      email:dados.email, telefone:dados.tel, morada:dados.morada+', '+dados.cp+' '+dados.loc,
+      entidade:entidade, ref:refFmt, total:total
     });
     try{ localStorage.setItem(KEY_O, JSON.stringify(peds)); }catch(e){}
 
@@ -189,11 +196,6 @@
     const all = LumineCatalogo.all();
     items.forEach(i=>{ const p=all.find(x=>x.id===i.id); if(p) p.stock=Math.max(0,(p.stock||0)-i.qty); });
     LumineCatalogo.save(all);
-
-    // 3) gera a Referência Multibanco (demonstração)
-    const entidade = '21832';
-    const ref = String(Math.floor(100000000 + Math.random()*900000000));
-    const refFmt = ref.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
 
     LumineCart.clear();
     mostrarConfirmacao(id, entidade, refFmt, total);

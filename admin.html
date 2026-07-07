@@ -34,9 +34,22 @@
   .btn-sm{padding:6px 12px;font-size:11px;letter-spacing:.08em;}
   .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;
     font-size:11px;letter-spacing:.06em;text-transform:uppercase;}
+  .pill.aguardando{background:rgba(226,155,91,.16);color:#E6A566;}
   .pill.novo{background:rgba(111,207,151,.14);color:var(--ok);}
   .pill.curso{background:rgba(228,185,91,.14);color:var(--warn);}
   .pill.enviado{background:rgba(201,204,209,.12);color:var(--silver,#C9CCD1);}
+  /* detalhes de envio (expansível) dentro do pedido */
+  .order-details{margin:2px 0 12px;}
+  .order-details summary{cursor:pointer;list-style:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold-light);padding:9px 0;display:flex;align-items:center;gap:8px;}
+  .order-details summary::-webkit-details-marker{display:none;}
+  .order-details summary::before{content:'▸';color:var(--cream-dim);transition:transform .2s;}
+  .order-details[open] summary::before{transform:rotate(90deg);}
+  .od-body{display:grid;gap:9px;padding:6px 0 12px;}
+  .od-body > div{display:grid;grid-template-columns:118px 1fr;gap:10px;font-size:13px;color:var(--cream);}
+  .od-body .k{color:var(--cream-dim);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding-top:2px;}
+  .od-body .copy{margin-left:8px;font-size:10px;letter-spacing:.06em;color:var(--gold-light);cursor:pointer;opacity:.7;}
+  .od-body .copy:hover{opacity:1;}
 
   /* ===== LOGIN ===== */
   #login{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
@@ -269,7 +282,8 @@
       </div>
       <div class="filters" id="orderFilters" style="margin-bottom:22px;">
         <button data-f="todos" class="active" onclick="filterOrders('todos')">Todos</button>
-        <button data-f="novo" onclick="filterOrders('novo')">Novos</button>
+        <button data-f="aguardando" onclick="filterOrders('aguardando')">Aguardando</button>
+        <button data-f="novo" onclick="filterOrders('novo')">A preparar</button>
         <button data-f="curso" onclick="filterOrders('curso')">Em curso</button>
         <button data-f="enviado" onclick="filterOrders('enviado')">Enviados</button>
       </div>
@@ -362,20 +376,27 @@ const LOW = 4; // limite de stock baixo
 // aqui aparece automaticamente no site (mesmo navegador).
 
 const SEED_PEDIDOS = [
-  {id:'LUM-1042', cliente:'Mariana Costa', contacto:'Lisboa · MB Way', data:'Hoje, 09:14', estado:'novo',
-    itens:[{nome:'Colar Coração', qtd:1, price:34},{nome:'Brincos de Pérola', qtd:1, price:19}]},
-  {id:'LUM-1041', cliente:'Sofia Marques', contacto:'Porto · Cartão', data:'Hoje, 08:02', estado:'novo',
-    itens:[{nome:'Anel de Pérola', qtd:2, price:24}]},
-  {id:'LUM-1040', cliente:'Beatriz Nunes', contacto:'Braga · MB Way', data:'Ontem, 21:37', estado:'novo',
-    itens:[{nome:'Conjunto Colar + Anel', qtd:1, price:42}]},
-  {id:'LUM-1039', cliente:'Inês Ferreira', contacto:'Coimbra · PayPal', data:'Ontem, 16:20', estado:'curso',
-    itens:[{nome:'Pulseira Snake', qtd:1, price:29},{nome:'Colar Esfera', qtd:1, price:27}]},
-  {id:'LUM-1038', cliente:'Rita Almeida', contacto:'Faro · MB Way', data:'Há 2 dias', estado:'enviado',
-    itens:[{nome:'Brincos Gota', qtd:1, price:23}]},
-  {id:'LUM-1037', cliente:'Carla Pinto', contacto:'Setúbal · Cartão', data:'Há 3 dias', estado:'enviado',
-    itens:[{nome:'Anel Madrepérola', qtd:1, price:26},{nome:'Pulseira Multi-fios', qtd:1, price:32}]},
-  {id:'LUM-1036', cliente:'Helena Sousa', contacto:'Aveiro · MB Way', data:'Há 4 dias', estado:'enviado',
-    itens:[{nome:'Colar com Argola', qtd:1, price:29}]}
+  {id:'LUM-1042', cliente:'Mariana Costa', contacto:'Lisboa · Multibanco', data:'Hoje, 09:14', estado:'aguardando',
+    itens:[{nome:'Colar Coração', qtd:1, price:34},{nome:'Brincos de Pérola', qtd:1, price:19}],
+    email:'mariana.costa@gmail.com', telefone:'912 345 678', morada:'Rua das Flores, 42, 3º Dto, 1200-192 Lisboa', entidade:'21832', ref:'482 173 906'},
+  {id:'LUM-1041', cliente:'Sofia Marques', contacto:'Porto · Multibanco', data:'Hoje, 08:02', estado:'aguardando',
+    itens:[{nome:'Anel de Pérola', qtd:2, price:24}],
+    email:'sofia.marques@sapo.pt', telefone:'936 210 447', morada:'Av. da Boavista, 1024, 4100-113 Porto', entidade:'21832', ref:'905 641 238'},
+  {id:'LUM-1040', cliente:'Beatriz Nunes', contacto:'Braga · Multibanco', data:'Ontem, 21:37', estado:'novo',
+    itens:[{nome:'Conjunto Colar + Anel', qtd:1, price:42}],
+    email:'beatriz.n@gmail.com', telefone:'925 908 112', morada:'Rua do Souto, 15, 4700-328 Braga', entidade:'21832', ref:'317 220 884'},
+  {id:'LUM-1039', cliente:'Inês Ferreira', contacto:'Coimbra · Multibanco', data:'Ontem, 16:20', estado:'curso',
+    itens:[{nome:'Pulseira Snake', qtd:1, price:29},{nome:'Colar Esfera', qtd:1, price:27}],
+    email:'ines.ferreira@hotmail.com', telefone:'917 554 320', morada:'Praça da República, 8, 2º, 3000-343 Coimbra'},
+  {id:'LUM-1038', cliente:'Rita Almeida', contacto:'Faro · Multibanco', data:'Há 2 dias', estado:'enviado',
+    itens:[{nome:'Brincos Gota', qtd:1, price:23}],
+    email:'rita.almeida@gmail.com', telefone:'961 233 870', morada:'Rua de Santo António, 77, 8000-283 Faro'},
+  {id:'LUM-1037', cliente:'Carla Pinto', contacto:'Setúbal · Multibanco', data:'Há 3 dias', estado:'enviado',
+    itens:[{nome:'Anel Madrepérola', qtd:1, price:26},{nome:'Pulseira Multi-fios', qtd:1, price:32}],
+    email:'carla.pinto@gmail.com', telefone:'933 087 245', morada:'Av. Luísa Todi, 210, 2900-462 Setúbal'},
+  {id:'LUM-1036', cliente:'Helena Sousa', contacto:'Aveiro · Multibanco', data:'Há 4 dias', estado:'enviado',
+    itens:[{nome:'Colar com Argola', qtd:1, price:29}],
+    email:'helena.sousa@gmail.com', telefone:'918 442 610', morada:'Rua Direita, 33, 3800-075 Aveiro'}
 ];
 
 let produtos = [], pedidos = [], orderFilter = 'todos', editImgs = [], editVideo = '';
@@ -418,7 +439,7 @@ function go(view){
 /* ============ HELPERS ============ */
 const eur = n => Number(n).toLocaleString('pt-PT') + ' €';
 const orderTotal = o => o.itens.reduce((s,i)=>s + i.price*i.qtd, 0);
-const estadoLabel = e => e==='novo'?'Novo':e==='curso'?'Em curso':'Enviado';
+const estadoLabel = e => e==='aguardando'?'Aguardando confirmação':e==='novo'?'A preparar':e==='curso'?'Em curso':'Enviado';
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
 function stockClass(s){ return s<=1?'stock-low':s<=LOW?'stock-mid':''; }
 function pImg(p){ return (p.imgs && p.imgs[0]) || 'img/logo-lumine.png'; }
@@ -427,22 +448,22 @@ function pImg(p){ return (p.imgs && p.imgs[0]) || 'img/logo-lumine.png'; }
 function renderAll(){ renderKpis(); renderProducts(); renderOrders(); renderStock(); renderResumo(); renderBadges(); }
 
 function renderBadges(){
-  const novos = pedidos.filter(p=>p.estado==='novo').length;
+  const atencao = pedidos.filter(p=>p.estado==='aguardando'||p.estado==='novo').length;
   const low = produtos.filter(p=>p.stock<=LOW).length;
   const bn=document.getElementById('badgeNovos'), bs=document.getElementById('badgeStock');
-  bn.style.display = novos?'flex':'none'; bn.textContent = novos;
+  bn.style.display = atencao?'flex':'none'; bn.textContent = atencao;
   bs.style.display = low?'flex':'none';   bs.textContent = low;
 }
 
 function renderKpis(){
-  const novos = pedidos.filter(p=>p.estado==='novo').length;
-  const curso = pedidos.filter(p=>p.estado==='curso').length;
-  const receita = pedidos.reduce((s,o)=>s+orderTotal(o),0);
+  const aguardando = pedidos.filter(p=>p.estado==='aguardando').length;
+  const preparar = pedidos.filter(p=>p.estado==='novo'||p.estado==='curso').length;
+  const receita = pedidos.filter(p=>p.estado!=='aguardando').reduce((s,o)=>s+orderTotal(o),0);
   const low = produtos.filter(p=>p.stock<=LOW).length;
   document.getElementById('kpis').innerHTML = `
-    <div class="kpi"><div class="label">Pedidos novos</div><div class="num">${novos}</div><div class="foot">a aguardar preparação</div></div>
-    <div class="kpi"><div class="label">Em curso</div><div class="num">${curso}</div><div class="foot">em preparação</div></div>
-    <div class="kpi"><div class="label">Receita total</div><div class="num">${receita.toLocaleString('pt-PT')}<small> €</small></div><div class="foot">${pedidos.length} pedidos</div></div>
+    <div class="kpi"><div class="label">Aguardando pagamento</div><div class="num" style="color:${aguardando?'#E6A566':'var(--gold-light)'}">${aguardando}</div><div class="foot">confirmar Multibanco</div></div>
+    <div class="kpi"><div class="label">Em preparação</div><div class="num">${preparar}</div><div class="foot">pagos, a enviar</div></div>
+    <div class="kpi"><div class="label">Receita confirmada</div><div class="num">${receita.toLocaleString('pt-PT')}<small> €</small></div><div class="foot">só pagamentos confirmados</div></div>
     <div class="kpi"><div class="label">Stock baixo</div><div class="num" style="color:${low?'var(--danger)':'var(--gold-light)'}">${low}</div><div class="foot">peças ≤ ${LOW} unid.</div></div>`;
 }
 
@@ -516,15 +537,28 @@ function renderOrders(){
   el.innerHTML = list.map(o=>{
     const items = o.itens.map(i=>`${i.qtd}× ${i.nome} <span style="color:var(--cream-dim)">(${eur(i.price)})</span>`).join('<br>');
     let actions = '';
+    if(o.estado==='aguardando') actions = `<button class="btn btn-solid btn-sm" onclick="confirmarPagamento('${o.id}')">✓ Pagamento confirmado</button>`;
     if(o.estado==='novo')    actions = `<button class="btn btn-solid btn-sm" onclick="advance('${o.id}')">Iniciar preparação →</button>`;
     if(o.estado==='curso')   actions = `<button class="btn btn-solid btn-sm" onclick="advance('${o.id}')">Marcar enviado →</button>`;
     if(o.estado==='enviado') actions = `<button class="btn btn-ghost btn-sm" onclick="reopen('${o.id}')">Reabrir</button>`;
+
+    // detalhes de envio (só as linhas que existem)
+    const rows = [];
+    if(o.morada)   rows.push(`<div><span class="k">Morada</span><div>${o.morada}</div></div>`);
+    if(o.email)    rows.push(`<div><span class="k">Email</span><div>${o.email}</div></div>`);
+    if(o.telefone) rows.push(`<div><span class="k">Telemóvel</span><div>${o.telefone}</div></div>`);
+    if(o.entidade && o.ref) rows.push(`<div><span class="k">Multibanco</span><div>Entidade ${o.entidade} · Ref. ${o.ref}</div></div>`);
+    const details = rows.length
+      ? `<details class="order-details"><summary>Detalhes de envio</summary><div class="od-body">${rows.join('')}</div></details>`
+      : '';
+
     return `<div class="order">
       <div class="order-top">
         <div class="who"><strong>${o.cliente}</strong><div class="meta">${o.contacto} · ${o.data}</div></div>
         <div style="text-align:right"><span class="pill ${o.estado}">${estadoLabel(o.estado)}</span><div class="order-id" style="margin-top:6px">${o.id}</div></div>
       </div>
       <div class="order-items">${items}</div>
+      ${details}
       <div class="order-foot">
         <div class="order-total">${eur(orderTotal(o))}</div>
         <div class="order-actions">${actions}</div>
@@ -623,6 +657,7 @@ document.getElementById('f-videofile').addEventListener('change', e=>{
 });
 
 function filterOrders(f){ orderFilter=f; document.querySelectorAll('#orderFilters button').forEach(b=>b.classList.toggle('active',b.dataset.f===f)); renderOrders(); }
+function confirmarPagamento(id){ const o=pedidos.find(x=>x.id===id); if(!o) return; o.estado='novo'; saveO(); renderAll(); toast('Pagamento confirmado · '+id); }
 function advance(id){ const o=pedidos.find(x=>x.id===id); if(!o) return; o.estado = o.estado==='novo'?'curso':'enviado'; saveO(); renderAll(); toast('Pedido '+id+' → '+estadoLabel(o.estado)); }
 function reopen(id){ const o=pedidos.find(x=>x.id===id); if(!o) return; o.estado='curso'; saveO(); renderAll(); toast('Pedido reaberto'); }
 
